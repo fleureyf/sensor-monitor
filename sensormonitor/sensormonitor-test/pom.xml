@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project 
+    xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>sensormonitor-test</artifactId>
+  <packaging>apk</packaging>
+  <name>${project.artifactId}</name>
+  <description>${parent.name} android test application</description>  
+
+  <parent>
+    <artifactId>sensormonitor</artifactId>
+    <groupId>com.fleurey.android</groupId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../</relativePath>
+  </parent>
+
+  <ciManagement>
+    <system>jenkins</system>
+    <url>http://bdx.fleurey.com/jenkins/job/${project.parent.name}sensormonitor-test/</url>
+  </ciManagement>
+
+  <properties>
+    <maven-checkstyle-plugin.configLocation>../reporting/checkstyle.xml</maven-checkstyle-plugin.configLocation>
+    <maven-pmd-plugin.configLocation>../reporting/pmd.xml</maven-pmd-plugin.configLocation>
+    <dependency.android-test.version>4.0.1.2</dependency.android-test.version>
+    <dependency.robotium-solo.version>3.3</dependency.robotium-solo.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+	<groupId>com.google.android</groupId>
+	<artifactId>android-test</artifactId>
+	<version>${dependency.android-test.version}</version>
+	<scope>provided</scope>
+      </dependency>
+      <dependency>
+	<groupId>${project.parent.groupId}</groupId>
+	<artifactId>${project.parent.artifactId}-main</artifactId>
+	<scope>provided</scope>
+	<type>apk</type>
+	<version>${project.parent.version}</version>
+      </dependency>
+      <dependency>
+	<groupId>${project.parent.groupId}</groupId>
+	<artifactId>${project.parent.artifactId}-main</artifactId>
+	<scope>provided</scope>
+	<type>jar</type>
+	<version>${project.parent.version}</version>
+      </dependency>
+      <dependency>
+	<groupId>com.jayway.android.robotium</groupId>
+	<artifactId>robotium-solo</artifactId>
+	<version>${dependency.robotium-solo.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>  
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.android</groupId>
+      <artifactId>android-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>${project.parent.artifactId}-main</artifactId>
+      <type>apk</type>
+    </dependency>
+    <dependency>
+      <groupId>${project.parent.groupId}</groupId>
+      <artifactId>${project.parent.artifactId}-main</artifactId>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.jayway.android.robotium</groupId>
+      <artifactId>robotium-solo</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+        <artifactId>android-maven-plugin</artifactId>
+        <configuration>
+          <sdk>
+            <path>${android.sdk.path}</path>
+            <platform>15</platform>
+          </sdk>
+        </configuration>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

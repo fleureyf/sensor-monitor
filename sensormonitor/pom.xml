@@ -80,6 +80,7 @@
     <maven-checkstyle-plugin.configLocation>reporting/checkstyle.xml</maven-checkstyle-plugin.configLocation>
     <maven-pmd-plugin.configLocation>reporting/pmd.xml</maven-pmd-plugin.configLocation>
 
+    <testing>false</testing>
     <proguard.skip>true</proguard.skip>
     <checkstyle.skip>true</checkstyle.skip>
     <findbugs.skip>true</findbugs.skip>
@@ -347,6 +348,20 @@
   
   <modules>
     <module>sensormonitor-main</module>
-    <module>sensormonitor-test</module>
   </modules>
+  
+  <profiles>
+    <profile>
+      <id>testing</id>
+      <activation>
+      <property>
+        <name>testing</name>
+        <value>true</value>
+      </property>
+    </activation>
+      <modules>
+        <module>sensormonitor-test</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

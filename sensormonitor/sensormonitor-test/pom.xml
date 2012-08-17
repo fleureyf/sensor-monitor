@@ -90,6 +90,10 @@
             <path>${android.sdk.path}</path>
             <platform>15</platform>
           </sdk>
+	  <undeployBeforeDeploy>true</undeployBeforeDeploy>
+	  <sign>
+	    <debug>${testing}</debug>
+	  </sign>
         </configuration>
         <extensions>true</extensions>
       </plugin>

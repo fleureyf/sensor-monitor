@@ -2,8 +2,6 @@ package com.fleurey.android.sensormonitor;
 
 import java.util.Locale;
 
-import com.fleurey.android.sensormonitor.fragments.SensorListFragment;
-
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -12,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,14 +18,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fleurey.android.sensormonitor.fragments.SensorFragment;
+import com.fleurey.android.sensormonitor.fragments.SensorListFragment;
+import com.fleurey.android.sensormonitor.sensormanager.SensorManager;
+
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
-	SectionsPagerAdapter mSectionsPagerAdapter;
-	ViewPager mViewPager;
+	private static final String TAG = MainActivity.class.getSimpleName();
+	
+	private SectionsPagerAdapter mSectionsPagerAdapter;
+	private ViewPager mViewPager;
+	private SensorManager mSensorManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "__ON_CREATE__");
 		setContentView(R.layout.activity_main);
 		
 		final ActionBar actionBar = getActionBar();
@@ -46,8 +53,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		for (int i = 0 ; i < mSectionsPagerAdapter.getCount() ; i ++) {
 			actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 		}
+		
+		mSensorManager = new SensorManager(getApplicationContext());
 	}
 
+	public SensorManager getSensorManager() {
+		return mSensorManager;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -56,6 +69,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+		// Remove sensor details fragment if exist
+		if (getSupportFragmentManager().findFragmentByTag(SensorFragment.class.getName()) != null) {
+			getSupportFragmentManager().popBackStack();
+		}
 		mViewPager.setCurrentItem(tab.getPosition());
 	}
 
